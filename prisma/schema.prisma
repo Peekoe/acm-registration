@@ -11,8 +11,27 @@ model User {
   id               String @id
   firstName        String
   lastName         String
-  email            String
-  discordUser      String
+  email            String @unique
+  discordUser      String @unique
   pronouns         String
   verificationCode String
+  password         String
+  courses          Course[]
+}
+
+model Course {
+  id         Int        @id @default(autoincrement())
+  section    Int
+  semester   String
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  courseId   Int
+  courseCode CourseCode @relation(fields: [courseId], references: [id])
+}
+
+model CourseCode {
+  id      Int      @id @default(autoincrement())
+  major   String
+  name    String
+  courses Course[]
 }
